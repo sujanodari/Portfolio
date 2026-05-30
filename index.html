@@ -5,1285 +5,519 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sujan Odari — Senior Software Engineer</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-
-  <!-- Fonts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sand:    '#f5f0e8',
+            sand2:   '#ede7d9',
+            sand3:   '#e0d8c8',
+            warmw:   '#faf8f4',
+            ink:     '#1a1610',
+            ink2:    '#2e2820',
+            ink3:    '#4a4238',
+            muted:   '#8a7e6e',
+            muted2:  '#b5a992',
+            rust:    '#c0522a',
+            rust2:   '#e06a38',
+            sage:    '#4a6741',
+            gold:    '#b8860b',
+            gold2:   '#d4a017',
+            bluep:   '#2a4a6b',
+            blue2:   '#3a6a9b',
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            sans:  ['Lato', 'system-ui', 'sans-serif'],
+            mono:  ['Source Code Pro', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
   <style>
-    /* ─── RESET & ROOT ─────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:       #0c0b09;
-      --bg2:      #111008;
-      --surface:  #16140f;
-      --border:   rgba(255,220,100,0.1);
-      --border2:  rgba(255,220,100,0.2);
-
-      --gold:     #f5c842;
-      --gold2:    #e8a020;
-      --amber:    #ff8c42;
-      --cream:    #f0e6c8;
-      --white:    #faf7f0;
-      --muted:    #7a7060;
-      --muted2:   #a09880;
-
-      --font-display: 'DM Serif Display', Georgia, serif;
-      --font-ui:      'Syne', system-ui, sans-serif;
-      --font-mono:    'JetBrains Mono', monospace;
-
-      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-      --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
     html { scroll-behavior: smooth; }
+    ::selection { background: #c0522a; color: #faf8f4; }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: #ede7d9; }
+    ::-webkit-scrollbar-thumb { background: #c0522a; }
 
-    body {
-      background: var(--bg);
-      color: var(--cream);
-      font-family: var(--font-ui);
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    ::selection { background: var(--gold); color: var(--bg); }
-
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--bg2); }
-    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
-
-    /* ─── CUSTOM CURSOR ─────────────────────────────────────────── */
-    #cursor {
-      position: fixed; top: 0; left: 0; z-index: 9999;
-      pointer-events: none;
-      mix-blend-mode: difference;
-    }
-    #cursor-dot {
-      width: 8px; height: 8px;
-      background: var(--gold);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s;
-    }
-    #cursor-ring {
-      position: fixed; top: 0; left: 0; z-index: 9998;
-      width: 36px; height: 36px;
-      border: 1.5px solid rgba(245,200,66,0.5);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: all 0.18s var(--ease-out-expo);
-    }
-    body.cursor-hover #cursor-ring {
-      width: 56px; height: 56px;
-      background: rgba(245,200,66,0.08);
-      border-color: var(--gold);
-    }
-
-    /* ─── NOISE OVERLAY ──────────────────────────────────────────── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
-      pointer-events: none;
-      opacity: 0.4;
-    }
-
-    /* ─── UTILITY ────────────────────────────────────────────────── */
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
-    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
-
-    /* ─── REVEAL ANIMATION ──────────────────────────────────────── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
-    }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.75s ease, transform 0.75s ease; }
     .reveal.visible { opacity: 1; transform: none; }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-    .reveal-delay-5 { transition-delay: 0.5s; }
+    .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; }
+    .d3 { transition-delay: 0.3s; } .d4 { transition-delay: 0.4s; }
 
-    /* ─── NAV ────────────────────────────────────────────────────── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 1.4rem 2rem;
-      display: flex; justify-content: space-between; align-items: center;
-      transition: background 0.4s, backdrop-filter 0.4s, border-color 0.4s;
-      border-bottom: 1px solid transparent;
-    }
-    nav.scrolled {
-      background: rgba(12,11,9,0.85);
-      backdrop-filter: blur(20px);
-      border-color: var(--border);
+    .hero-anim-1 { opacity:0; animation: fadeUp 0.9s 0.2s ease forwards; }
+    .hero-anim-2 { opacity:0; animation: fadeUp 0.9s 0.35s ease forwards; }
+    .hero-anim-3 { opacity:0; animation: fadeUp 0.9s 0.5s ease forwards; }
+    .hero-anim-4 { opacity:0; animation: fadeUp 0.9s 0.65s ease forwards; }
+    .hero-anim-5 { opacity:0; animation: fadeIn 1s 0.9s forwards; }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(28px);} to { opacity:1; transform:none;} }
+    @keyframes fadeIn { from { opacity:0;} to { opacity:1;} }
+    @keyframes scrollPulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .drop-cap::first-letter {
+      font-family: 'Playfair Display', serif; font-size: 3.2rem; font-weight: 700;
+      float: left; line-height: 1; margin-right: 0.1em; margin-top: 0.05em; color: #c0522a;
     }
 
-    .nav-logo {
-      display: flex; align-items: center; gap: 0.75rem;
-      text-decoration: none;
+    .nav-underline::after {
+      content:''; position:absolute; bottom:-3px; left:0; width:0; height:1.5px;
+      background:#c0522a; transition:width 0.3s ease;
     }
-    .nav-logo-mark {
-      width: 36px; height: 36px;
-      border: 1.5px solid var(--gold);
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      color: var(--gold);
-      transition: background 0.3s;
-    }
-    .nav-logo:hover .nav-logo-mark { background: var(--gold); color: var(--bg); }
-    .nav-logo-name {
-      font-family: var(--font-ui);
-      font-weight: 700;
-      font-size: 0.95rem;
-      letter-spacing: 0.04em;
-      color: var(--white);
-    }
+    .nav-underline:hover::after, .nav-underline.active::after { width:100%; }
 
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a {
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--muted2);
-      transition: color 0.3s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute; bottom: -3px; left: 0; right: 0;
-      height: 1px; background: var(--gold);
-      transform: scaleX(0);
-      transition: transform 0.3s var(--ease-out-expo);
-    }
-    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
-    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
-
-    .nav-cta {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.55rem 1.2rem;
-      border: 1.5px solid var(--gold);
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--gold);
-      transition: background 0.3s, color 0.3s;
-    }
-    .nav-cta:hover { background: var(--gold); color: var(--bg); }
-
-    .nav-hamburger {
-      display: none; flex-direction: column; gap: 5px;
-      background: none; border: none; cursor: none; padding: 4px;
-    }
-    .nav-hamburger span {
-      width: 24px; height: 1.5px;
-      background: var(--cream);
-      transition: all 0.3s;
-    }
-
-    /* ─── MOBILE NAV MENU ────────────────────────────────────────── */
-    .mobile-nav {
-      display: none;
-      position: fixed; inset: 0; z-index: 99;
-      background: var(--bg);
-      flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 2.5rem;
-    }
-    .mobile-nav.open { display: flex; }
-    .mobile-nav a {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      text-decoration: none;
-      color: var(--cream);
-      transition: color 0.3s;
-    }
-    .mobile-nav a:hover { color: var(--gold); }
-    .mobile-nav-close {
-      position: absolute; top: 1.5rem; right: 2rem;
-      background: none; border: none; cursor: none;
-      color: var(--muted2); font-size: 2rem;
-    }
-
-    /* ─── HERO ───────────────────────────────────────────────────── */
-    #home {
-      min-height: 100vh;
-      display: grid;
-      align-content: center;
-      padding: 8rem 2rem 4rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-grid-lines {
-      position: absolute; inset: 0; z-index: 0;
-      background-image:
-        linear-gradient(rgba(245,200,66,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(245,200,66,0.03) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black, transparent);
-    }
-
-    .hero-glow {
-      position: absolute; top: 20%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px; height: 400px;
-      background: radial-gradient(ellipse, rgba(245,200,66,0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
-
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--gold);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeSlideDown 0.8s 0.2s var(--ease-out-expo) forwards;
-    }
-    .hero-eyebrow span.line {
-      width: 32px; height: 1px;
-      background: var(--gold);
-    }
-
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(4rem, 10vw, 9rem);
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      color: var(--white);
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeSlideUp 1s 0.35s var(--ease-out-expo) forwards;
-    }
-    .hero-title .italic { font-style: italic; color: var(--gold); }
-    .hero-title .outline {
-      -webkit-text-stroke: 1.5px var(--white);
-      color: transparent;
-    }
-
-    .hero-subtitle {
-      max-width: 520px;
-      font-size: 1.05rem;
-      line-height: 1.75;
-      color: var(--muted2);
-      margin-bottom: 3rem;
-      opacity: 0;
-      animation: fadeSlideUp 1s 0.5s var(--ease-out-expo) forwards;
-    }
-    .hero-subtitle strong { color: var(--cream); font-weight: 600; }
-
-    .hero-actions {
-      display: flex; gap: 1rem; flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeSlideUp 1s 0.65s var(--ease-out-expo) forwards;
-    }
-
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      padding: 0.85rem 2rem;
-      background: var(--gold);
-      color: var(--bg);
-      font-family: var(--font-ui);
-      font-weight: 700;
-      font-size: 0.85rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: 4px;
-      border: none; cursor: none;
-      transition: background 0.3s, transform 0.3s var(--ease-spring), box-shadow 0.3s;
-    }
-    .btn-primary:hover {
-      background: var(--amber);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(245,200,66,0.2);
-    }
-    .btn-primary svg { transition: transform 0.3s; }
-    .btn-primary:hover svg { transform: translateX(4px); }
-
-    .btn-ghost {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      padding: 0.85rem 2rem;
-      background: transparent;
-      color: var(--cream);
-      font-family: var(--font-ui);
-      font-weight: 700;
-      font-size: 0.85rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: 4px;
-      border: 1.5px solid var(--border2);
-      cursor: none;
-      transition: border-color 0.3s, color 0.3s, background 0.3s, transform 0.3s var(--ease-spring);
-    }
-    .btn-ghost:hover {
-      border-color: var(--cream);
-      background: rgba(240,230,200,0.05);
-      transform: translateY(-2px);
-    }
-
-    .hero-socials {
-      position: absolute; bottom: 3rem; left: 2rem;
-      display: flex; flex-direction: column; align-items: center; gap: 1rem;
-      opacity: 0;
-      animation: fadeIn 1s 1.2s forwards;
-    }
-    .hero-socials::before {
-      content: '';
-      width: 1px; height: 60px;
-      background: linear-gradient(transparent, var(--border2));
-    }
-    .hero-social-link {
-      display: flex; align-items: center; justify-content: center;
-      width: 36px; height: 36px;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      color: var(--muted2);
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-    .hero-social-link:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      transform: translateY(-3px);
-    }
-
-    .hero-scroll {
-      position: absolute; bottom: 3rem; right: 2rem;
-      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      opacity: 0;
-      animation: fadeIn 1s 1.2s forwards;
-    }
-    .hero-scroll::after {
-      content: '';
-      width: 1px; height: 50px;
-      background: linear-gradient(var(--border2), transparent);
-      animation: scrollLine 2s ease-in-out infinite;
-    }
-    @keyframes scrollLine {
-      0%,100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
-      50% { opacity: 0.3; }
-    }
-
-    /* ─── SECTION COMMONS ────────────────────────────────────────── */
-    section { position: relative; z-index: 1; }
-
-    .section-tag {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--gold);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 1.2rem;
-    }
-    .section-tag::before {
-      content: '';
-      width: 20px; height: 1px;
-      background: var(--gold);
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      color: var(--white);
-      margin-bottom: 1rem;
-    }
-
-    .divider {
-      width: 100%; height: 1px;
-      background: var(--border);
-    }
-
-    /* ─── ABOUT ──────────────────────────────────────────────────── */
-    #about {
-      padding: 8rem 2rem;
-      border-top: 1px solid var(--border);
-    }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: start;
-    }
-    .about-text p {
-      font-size: 1.05rem;
-      line-height: 1.85;
-      color: var(--muted2);
-      margin-bottom: 1.5rem;
-    }
-    .about-text p strong { color: var(--cream); font-weight: 600; }
-    .about-text p a { color: var(--gold); text-decoration: none; }
-
-    .about-cards { display: flex; flex-direction: column; gap: 1rem; }
-    .about-card {
-      padding: 1.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 1.2rem;
-      align-items: start;
-      transition: border-color 0.3s, background 0.3s;
-    }
-    .about-card:hover {
-      border-color: var(--border2);
-      background: rgba(22,20,15,0.8);
-    }
-    .about-card-icon {
-      width: 44px; height: 44px;
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .about-card-icon.gold { background: rgba(245,200,66,0.12); color: var(--gold); }
-    .about-card-icon.amber { background: rgba(255,140,66,0.12); color: var(--amber); }
-    .about-card-icon.teal { background: rgba(80,200,160,0.1); color: #50c8a0; }
-    .about-card h3 {
-      font-family: var(--font-ui);
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: var(--cream);
-      margin-bottom: 0.35rem;
-      letter-spacing: 0.02em;
-    }
-    .about-card p {
-      font-size: 0.82rem;
-      line-height: 1.6;
-      color: var(--muted);
-    }
-    .about-card p strong { color: var(--muted2); }
-
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      margin-top: 2rem;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .stat {
-      padding: 1.5rem 1rem;
-      background: var(--surface);
-      text-align: center;
-    }
-    .stat-num {
-      font-family: var(--font-display);
-      font-size: 2.2rem;
-      color: var(--gold);
-      line-height: 1;
-      margin-bottom: 0.3rem;
-    }
-    .stat-label {
-      font-size: 0.72rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    /* ─── SKILLS ─────────────────────────────────────────────────── */
-    #skills {
-      padding: 8rem 2rem;
-      border-top: 1px solid var(--border);
-      background: var(--bg2);
-    }
-    .skills-header {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: end;
-      margin-bottom: 5rem;
-    }
-    .skills-intro {
-      font-size: 1rem;
-      line-height: 1.8;
-      color: var(--muted2);
-    }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .skill-col {
-      background: var(--surface);
-      padding: 2rem 1.5rem;
-      transition: background 0.3s;
-    }
-    .skill-col:hover { background: #1a1810; }
-    .skill-col-icon {
-      width: 42px; height: 42px;
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.2rem;
-    }
-    .skill-col-icon.red    { background: rgba(239,68,68,0.12); color: #ef4444; }
-    .skill-col-icon.green  { background: rgba(52,211,153,0.1); color: #34d399; }
-    .skill-col-icon.blue   { background: rgba(96,165,250,0.1); color: #60a5fa; }
-    .skill-col-icon.orange { background: rgba(251,146,60,0.12); color: #fb923c; }
-
-    .skill-col h3 {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted2);
-      margin-bottom: 1.2rem;
-    }
-    .skill-item {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.45rem 0;
-      font-size: 0.82rem;
-      color: var(--muted2);
-      border-bottom: 1px solid rgba(255,220,100,0.04);
-      transition: color 0.2s;
-    }
-    .skill-item:hover { color: var(--cream); }
-    .skill-item:last-child { border: none; }
-    .skill-dot {
-      width: 4px; height: 4px;
-      border-radius: 50%;
-      background: var(--gold);
-      flex-shrink: 0;
-      opacity: 0.5;
-    }
-
-    /* ─── EXPERIENCE ─────────────────────────────────────────────── */
-    #experience {
-      padding: 8rem 2rem;
-      border-top: 1px solid var(--border);
-    }
-    .exp-list { display: flex; flex-direction: column; gap: 0; margin-top: 4rem; }
-
-    .exp-item {
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 3rem;
-      padding: 2.5rem 0;
-      border-top: 1px solid var(--border);
-      transition: background 0.3s;
-      position: relative;
-    }
-    .exp-item:last-child { border-bottom: 1px solid var(--border); }
+    .exp-item { position: relative; }
     .exp-item::before {
-      content: '';
-      position: absolute; left: -2rem; right: -2rem; top: 0; bottom: 0;
-      background: rgba(245,200,66,0.02);
-      opacity: 0;
-      transition: opacity 0.3s;
-      border-radius: 8px;
+      content:''; position:absolute; left:-1.5rem; top:0; bottom:0; width:3px;
+      background:#c0522a; transform:scaleY(0); transition:transform 0.4s ease;
+      transform-origin:top;
     }
-    .exp-item:hover::before { opacity: 1; }
-
-    .exp-meta { padding-top: 0.2rem; }
-    .exp-period {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      margin-bottom: 0.8rem;
-    }
-    .exp-badge {
-      display: inline-block;
-      padding: 0.25rem 0.7rem;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      border-radius: 3px;
-    }
-    .exp-badge.current { background: rgba(245,200,66,0.12); color: var(--gold); border: 1px solid rgba(245,200,66,0.2); }
-    .exp-badge.past    { background: rgba(255,255,255,0.05); color: var(--muted2); border: 1px solid var(--border); }
-    .exp-badge.freelance { background: rgba(255,140,66,0.1); color: var(--amber); border: 1px solid rgba(255,140,66,0.2); }
-
-    .exp-content h3 {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      color: var(--white);
-      margin-bottom: 0.2rem;
-    }
-    .exp-company {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--gold);
-      margin-bottom: 0.3rem;
-    }
-    .exp-location {
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      margin-bottom: 1.2rem;
-    }
-    .exp-bullets { list-style: none; }
-    .exp-bullets li {
-      display: flex; align-items: flex-start; gap: 0.7rem;
-      font-size: 0.875rem;
-      line-height: 1.65;
-      color: var(--muted2);
-      padding: 0.3rem 0;
-    }
-    .exp-bullets li::before {
-      content: '→';
-      color: var(--gold);
-      flex-shrink: 0;
-      margin-top: 0.05rem;
-      font-size: 0.75rem;
-    }
-    .exp-tags {
-      display: flex; flex-wrap: wrap; gap: 0.5rem;
-      margin-top: 1.2rem;
-    }
-    .exp-tag {
-      padding: 0.25rem 0.65rem;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      font-size: 0.7rem;
-      font-family: var(--font-mono);
-      color: var(--muted2);
+    @media(min-width:768px) {
+      .exp-item:hover::before { transform:scaleY(1); }
     }
 
-    /* ─── PROJECTS ───────────────────────────────────────────────── */
-    #projects {
-      padding: 8rem 2rem;
-      border-top: 1px solid var(--border);
-      background: var(--bg2);
+    .contact-grad {
+      background: linear-gradient(135deg, #c0522a 0%, #a84420 45%, #7a3018 100%);
+      position: relative; overflow: hidden;
     }
-    .projects-header {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      margin-bottom: 4rem;
-    }
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .project-card {
-      background: var(--surface);
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s;
-    }
-    .project-card:hover { background: #1c1912; }
-    .project-card.featured {
-      grid-column: span 2;
-    }
-    .project-card::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(circle at 100% 0%, rgba(245,200,66,0.04) 0%, transparent 60%);
-      pointer-events: none;
+    .contact-grad::before {
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background: radial-gradient(circle at 10% 90%, rgba(255,255,255,0.06) 0%, transparent 40%),
+                  radial-gradient(circle at 90% 10%, rgba(255,200,150,0.08) 0%, transparent 40%);
     }
 
-    .project-num {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: var(--muted);
-      letter-spacing: 0.15em;
-      margin-bottom: 1.5rem;
+    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(26,22,16,0.1); }
+
+    .skill-group { transition: transform 0.3s ease, box-shadow 0.3s; }
+    .skill-group:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(26,22,16,0.08); }
+
+    .article-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+      background:#c0522a; transform:scaleX(0); transform-origin:left; transition:transform 0.4s ease;
     }
-    .project-icon {
-      width: 48px; height: 48px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.2rem;
-    }
-    .project-card h3 {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      color: var(--white);
-      margin-bottom: 0.3rem;
-      line-height: 1.2;
-    }
-    .project-sub {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 0.8rem;
-    }
-    .project-desc {
-      font-size: 0.83rem;
-      line-height: 1.7;
-      color: var(--muted);
-      margin-bottom: 1.2rem;
-    }
-    .project-stack {
-      display: flex; flex-wrap: wrap; gap: 0.4rem;
-      margin-bottom: 1.5rem;
-    }
-    .stack-tag {
-      padding: 0.2rem 0.55rem;
-      background: rgba(245,200,66,0.06);
-      border: 1px solid rgba(245,200,66,0.12);
-      border-radius: 3px;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: var(--gold);
-    }
-    .project-status {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-    .project-status::before {
-      content: '';
-      width: 6px; height: 6px; border-radius: 50%;
-      background: currentColor;
-    }
-    .project-status.active { color: #34d399; }
-    .project-status.done   { color: var(--muted); }
-    .project-arrow {
-      position: absolute; top: 1.5rem; right: 1.5rem;
-      width: 32px; height: 32px;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--muted);
-      transition: all 0.3s;
-    }
-    .project-card:hover .project-arrow {
-      border-color: var(--gold);
-      color: var(--gold);
-      transform: translate(2px, -2px);
+    .article-card:hover::before { transform:scaleX(1); }
+    .article-card:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(26,22,16,0.1); border-color:rgba(192,82,42,0.25); }
+
+    .scroll-line { animation: scrollPulse 2.5s ease-in-out infinite; }
+
+    .project-arrow { transition: transform 0.3s, color 0.3s, border-color 0.3s; }
+    .project-card:hover .project-arrow { transform: translate(2px,-2px); color:#c0522a; border-color:#c0522a; }
+
+    .channel-ico { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+    .channel:hover .channel-ico { transform: translateY(-4px); }
+
+    .hero-deco { 
+      position:absolute; right:-1rem; top:50%; transform:translateY(-50%);
+      font-family:'Playfair Display',serif; font-size:clamp(16rem,30vw,38rem);
+      font-weight:700; color:transparent;
+      -webkit-text-stroke: 1px rgba(26,22,16,0.05);
+      line-height:1; pointer-events:none; user-select:none;
     }
 
-    /* ─── COMPETENCIES ───────────────────────────────────────────── */
-    #competencies {
-      padding: 8rem 2rem;
-      border-top: 1px solid var(--border);
-    }
-    .comp-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 4rem;
-    }
-    .comp-card {
-      background: var(--surface);
-      padding: 2rem;
-      transition: background 0.3s;
-    }
-    .comp-card:hover { background: #1a1810; }
-    .comp-card-icon {
-      width: 44px; height: 44px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1rem;
-    }
-    .comp-card h3 {
-      font-family: var(--font-ui);
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: var(--cream);
-      margin-bottom: 0.6rem;
-    }
-    .comp-card p {
-      font-size: 0.82rem;
-      line-height: 1.7;
-      color: var(--muted);
-    }
+    .btn-primary { transition: background 0.3s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(192,82,42,0.25); }
+    .btn-primary:hover svg { transform: translateX(4px); }
+    .btn-primary svg { transition: transform 0.3s; }
 
-    /* ─── CONTACT ────────────────────────────────────────────────── */
-    #contact {
-      padding: 8rem 2rem;
-      border-top: 1px solid var(--border);
-      background: var(--bg2);
-    }
-    .contact-inner {
-      max-width: 700px; margin: 0 auto; text-align: center;
-    }
-    .contact-inner .section-tag { justify-content: center; }
-    .contact-cta-text {
-      font-family: var(--font-display);
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      line-height: 1.05;
-      color: var(--white);
-      margin-bottom: 1.5rem;
-      letter-spacing: -0.02em;
-    }
-    .contact-cta-text .italic { font-style: italic; color: var(--gold); }
-    .contact-sub {
-      font-size: 1rem;
-      line-height: 1.8;
-      color: var(--muted2);
-      margin-bottom: 3rem;
-    }
+    .btn-outline { transition: border-color 0.3s, color 0.3s, background 0.3s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1); }
+    .btn-outline:hover { transform: translateY(-2px); }
 
-    .contact-channels {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 2.5rem;
-    }
-    .channel {
-      background: var(--surface);
-      padding: 2rem 1.5rem;
-      text-align: center;
-      text-decoration: none;
-      transition: background 0.3s, color 0.3s;
-    }
-    .channel:hover { background: #1c1912; }
-    .channel-icon {
-      width: 48px; height: 48px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1rem;
-      transition: transform 0.3s var(--ease-spring);
-    }
-    .channel:hover .channel-icon { transform: translateY(-4px); }
-    .channel h4 {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
-    }
-    .channel p {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--cream);
-    }
-
-    /* ─── FOOTER ─────────────────────────────────────────────────── */
-    footer {
-      padding: 2.5rem 2rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .footer-left {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-    }
-    .footer-right {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-    }
-
-    /* ─── KEYFRAMES ──────────────────────────────────────────────── */
-    @keyframes fadeSlideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: none; }
-    }
-    @keyframes fadeSlideDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to   { opacity: 1; transform: none; }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    /* ─── RESPONSIVE ─────────────────────────────────────────────── */
-    @media (max-width: 1024px) {
-      .skills-grid { grid-template-columns: repeat(2, 1fr); }
-      .projects-grid { grid-template-columns: repeat(2, 1fr); }
-      .project-card.featured { grid-column: span 1; }
-    }
-
-    @media (max-width: 768px) {
-      body { cursor: auto; }
-      #cursor, #cursor-ring { display: none; }
-      .nav-links, .nav-cta { display: none; }
-      .nav-hamburger { display: flex; }
-
-      .hero-socials { display: none; }
-      .hero-scroll { display: none; }
-
-      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .stat-row { grid-template-columns: repeat(3, 1fr); }
-
-      .skills-header { grid-template-columns: 1fr; gap: 1.5rem; }
-      .skills-grid { grid-template-columns: 1fr 1fr; }
-
-      .exp-item { grid-template-columns: 1fr; gap: 1rem; }
-
-      .projects-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-      .projects-grid { grid-template-columns: 1fr; }
-
-      .comp-grid { grid-template-columns: 1fr 1fr; }
-
-      .contact-channels { grid-template-columns: 1fr; }
-
-      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
-    }
-
-    @media (max-width: 480px) {
-      .hero-title { font-size: 3.5rem; }
-      .skills-grid { grid-template-columns: 1fr; }
-      .comp-grid { grid-template-columns: 1fr; }
-    }
+    .mobile-nav { display:none; }
+    .mobile-nav.open { display:flex; }
   </style>
 </head>
-<body>
+<body class="bg-warmw text-ink font-sans overflow-x-hidden">
 
-<!-- ── CUSTOM CURSOR ──────────────────────────────────────── -->
-<div id="cursor"><div id="cursor-dot"></div></div>
-<div id="cursor-ring"></div>
-
-<!-- ── MOBILE NAV ─────────────────────────────────────────── -->
-<div class="mobile-nav" id="mobileNav">
-  <button class="mobile-nav-close" id="mobileClose" aria-label="Close menu">✕</button>
-  <a href="#home"        onclick="closeMobileNav()">Home</a>
-  <a href="#about"       onclick="closeMobileNav()">About</a>
-  <a href="#skills"      onclick="closeMobileNav()">Skills</a>
-  <a href="#experience"  onclick="closeMobileNav()">Experience</a>
-  <a href="#projects"    onclick="closeMobileNav()">Projects</a>
-  <a href="#contact"     onclick="closeMobileNav()">Contact</a>
+<!-- MOBILE NAV -->
+<div class="mobile-nav fixed inset-0 z-[99] bg-warmw flex-col items-center justify-center gap-10" id="mobileNav">
+  <button onclick="document.getElementById('mobileNav').classList.remove('open')" class="absolute top-6 right-8 text-muted text-3xl bg-transparent border-none cursor-pointer">✕</button>
+  <a href="#home"       onclick="document.getElementById('mobileNav').classList.remove('open')" class="font-serif text-4xl italic text-ink hover:text-rust transition-colors no-underline">Home</a>
+  <a href="#about"      onclick="document.getElementById('mobileNav').classList.remove('open')" class="font-serif text-4xl italic text-ink hover:text-rust transition-colors no-underline">About</a>
+  <a href="#skills"     onclick="document.getElementById('mobileNav').classList.remove('open')" class="font-serif text-4xl italic text-ink hover:text-rust transition-colors no-underline">Skills</a>
+  <a href="#experience" onclick="document.getElementById('mobileNav').classList.remove('open')" class="font-serif text-4xl italic text-ink hover:text-rust transition-colors no-underline">Experience</a>
+  <a href="#projects"   onclick="document.getElementById('mobileNav').classList.remove('open')" class="font-serif text-4xl italic text-ink hover:text-rust transition-colors no-underline">Projects</a>
+  <a href="#articles"   onclick="document.getElementById('mobileNav').classList.remove('open')" class="font-serif text-4xl italic text-ink hover:text-rust transition-colors no-underline">Writing</a>
+  <a href="#contact"    onclick="document.getElementById('mobileNav').classList.remove('open')" class="font-serif text-4xl italic text-ink hover:text-rust transition-colors no-underline">Contact</a>
 </div>
 
-<!-- ── NAV ────────────────────────────────────────────────── -->
-<nav id="navbar">
-  <a href="#home" class="nav-logo">
-    <div class="nav-logo-mark">S</div>
-    <span class="nav-logo-name">Sujan Odari</span>
+<!-- NAV -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-[100] flex justify-between items-center px-6 md:px-10 lg:px-12 py-4 transition-all duration-300" id="navbar">
+  <a href="#home" class="flex items-center gap-3 no-underline group">
+    <div class="w-10 h-10"><img src="./favicon.svg" alt="logo"/></div>
+    <span class="font-serif font-semibold text-base text-ink">Sujan Odari</span>
   </a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
+  <ul class="hidden md:flex gap-8 list-none">
+    <li><a href="#about"      class="nav-underline relative text-xs font-bold tracking-widest uppercase no-underline text-ink3 hover:text-rust transition-colors">About</a></li>
+    <li><a href="#skills"     class="nav-underline relative text-xs font-bold tracking-widest uppercase no-underline text-ink3 hover:text-rust transition-colors">Skills</a></li>
+    <li><a href="#experience" class="nav-underline relative text-xs font-bold tracking-widest uppercase no-underline text-ink3 hover:text-rust transition-colors">Experience</a></li>
+    <li><a href="#projects"   class="nav-underline relative text-xs font-bold tracking-widest uppercase no-underline text-ink3 hover:text-rust transition-colors">Projects</a></li>
+    <li><a href="#articles"   class="nav-underline relative text-xs font-bold tracking-widest uppercase no-underline text-ink3 hover:text-rust transition-colors">Writing</a></li>
+    <li><a href="#contact"    class="nav-underline relative text-xs font-bold tracking-widest uppercase no-underline text-ink3 hover:text-rust transition-colors">Contact</a></li>
   </ul>
-  <a href="mailto:odarisujan@gmail.com" class="nav-cta">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+  <a href="mailto:odarisujan@gmail.com" class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-rust text-warmw rounded-sm text-xs font-bold tracking-widest uppercase no-underline hover:bg-ink transition-colors">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
     Hire Me
   </a>
-  <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
-    <span></span><span></span><span></span>
+  <button onclick="document.getElementById('mobileNav').classList.add('open')" class="md:hidden flex flex-col gap-1.5 bg-transparent border-none cursor-pointer p-1">
+    <span class="block w-6 h-px bg-ink"></span>
+    <span class="block w-6 h-px bg-ink"></span>
+    <span class="block w-6 h-px bg-ink"></span>
   </button>
 </nav>
 
-<!-- ── HERO ───────────────────────────────────────────────── -->
-<section id="home">
-  <div class="hero-grid-lines"></div>
-  <div class="hero-glow"></div>
+<!-- ═══════════ HERO ═══════════ -->
+<section id="home" class="relative min-h-screen flex items-center pt-24 pb-16 px-6 md:px-10 lg:px-12 overflow-hidden bg-sand">
+  <!-- grid texture -->
+  <div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(circle at 20% 50%,rgba(192,82,42,0.05) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(42,74,107,0.04) 0%,transparent 40%)"></div>
+  <div class="hero-deco hidden lg:block">S</div>
 
-  <div class="hero-inner container">
-    <div class="hero-eyebrow">
-      <span class="line"></span>
-      Senior Software Engineer · Kathmandu, Nepal
-      <span class="line"></span>
+  <div class="relative z-10 max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:gap-16 items-center">
+    <!-- Left -->
+    <div>
+      <div class="hero-anim-1 inline-flex items-center gap-3 font-mono text-xs tracking-[0.2em] uppercase text-rust mb-7">
+        <span class="w-7 h-px bg-rust"></span>
+        Senior Software Engineer · Kathmandu, Nepal
+        <span class="w-7 h-px bg-rust"></span>
+      </div>
+      <h1 class="hero-anim-2 font-serif leading-[0.98] tracking-tight text-ink mb-7" style="font-size:clamp(3.2rem,9vw,7.5rem)">
+        Building<br>
+        <em class="text-rust">Scalable</em><br>
+        <span style="-webkit-text-stroke:1.5px #1a1610;color:transparent">Software</span>
+      </h1>
+      <p class="hero-anim-3 text-base md:text-lg leading-relaxed text-ink3 max-w-xl mb-10">
+        Full-stack engineer with <strong class="text-ink font-bold">6+ years</strong> of experience crafting production systems — from FDA-compliant pharma platforms to real-time marketplaces. Expert in <strong class="text-ink font-bold">React, Next.js, SvelteKit</strong> &amp; GraphQL.
+      </p>
+      <div class="hero-anim-4 flex flex-wrap gap-4">
+        <a href="#projects" class="btn-primary inline-flex items-center gap-2 px-7 py-3.5 bg-rust text-warmw font-bold text-sm tracking-widest uppercase rounded-sm no-underline hover:bg-ink">
+          View My Work
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#contact" class="btn-outline inline-flex items-center gap-2 px-7 py-3.5 bg-transparent text-ink font-bold text-sm tracking-widest uppercase rounded-sm no-underline border border-ink/25 hover:border-rust hover:text-rust hover:bg-rust/5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+          Let's Talk
+        </a>
+      </div>
     </div>
-
-    <h1 class="hero-title">
-      Build<br>
-      <span class="italic">Better</span><br>
-      <span class="outline">Software</span>
-    </h1>
-
-    <p class="hero-subtitle">
-      Full-stack engineer with <strong>6+ years</strong> crafting scalable systems.
-      Expert in <strong>React, Next.js, SvelteKit, Node.js</strong> &amp; GraphQL.
-      FDA-compliant platforms, pharma workflows, and remote team leadership.
-    </p>
-
-    <div class="hero-actions">
-      <a href="#projects" class="btn-primary">
-        View My Work
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      <a href="#contact" class="btn-ghost">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
-        Let's Talk
-      </a>
+    <!-- Stat cards -->
+    <div class="hero-anim-5 flex lg:flex-col flex-row flex-wrap gap-3 justify-center lg:justify-start">
+      <div class="bg-warmw border border-ink/10 rounded-lg px-6 py-5 text-center shadow-sm min-w-[100px]">
+        <div class="font-serif text-4xl text-rust leading-none mb-1">6+</div>
+        <div class="font-mono text-[0.65rem] font-bold tracking-widest uppercase text-muted">Years Exp</div>
+      </div>
+      <div class="bg-warmw border border-ink/10 rounded-lg px-6 py-5 text-center shadow-sm min-w-[100px]">
+        <div class="font-serif text-4xl text-rust leading-none mb-1">12+</div>
+        <div class="font-mono text-[0.65rem] font-bold tracking-widest uppercase text-muted">Projects</div>
+      </div>
+      <div class="bg-warmw border border-ink/10 rounded-lg px-6 py-5 text-center shadow-sm min-w-[100px]">
+        <div class="font-serif text-4xl text-rust leading-none mb-1">3</div>
+        <div class="font-mono text-[0.65rem] font-bold tracking-widest uppercase text-muted">Countries</div>
+      </div>
     </div>
   </div>
 
-  <!-- Side socials -->
-  <div class="hero-socials">
-    <a href="https://linkedin.com/in/sujan-odari-532ba9152" target="_blank" rel="noopener" class="hero-social-link" title="LinkedIn">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-    </a>
-    <a href="mailto:odarisujan@gmail.com" class="hero-social-link" title="Email">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
-    </a>
-    <a href="tel:+9779817091757" class="hero-social-link" title="Phone">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.01 2.22 2 2 0 012 .04h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-    </a>
-  </div>
-
-  <div class="hero-scroll">Scroll</div>
-</section>
-
-<!-- ── ABOUT ──────────────────────────────────────────────── -->
-<section id="about">
-  <div class="container">
-    <div class="about-grid">
-      <!-- Left -->
-      <div>
-        <div class="section-tag reveal">About</div>
-        <h2 class="section-title reveal reveal-delay-1">Architect of<br><em>digital experiences</em></h2>
-
-        <div class="reveal reveal-delay-2">
-          <p>I'm a <strong>Senior Software Engineer</strong> with over 6 years of international experience building full-stack applications that scale. From freelance roots to leading teams at companies bridging Nepal and the USA.</p>
-          <p>My strength lies in architecting robust systems, guiding cross-continental teams, and transforming complex domain requirements into elegant, maintainable software. Currently working with <strong>Dhuni Software</strong> as their offshore partner for US-based clients.</p>
-          <p>Deeply committed to <strong>clean code practices</strong>, modern UX, and mentoring the next generation of engineers.</p>
-        </div>
-
-        <div class="stat-row reveal reveal-delay-3">
-          <div class="stat">
-            <div class="stat-num">6+</div>
-            <div class="stat-label">Years Exp</div>
-          </div>
-          <div class="stat">
-            <div class="stat-num">12+</div>
-            <div class="stat-label">Projects</div>
-          </div>
-          <div class="stat">
-            <div class="stat-num">3</div>
-            <div class="stat-label">Countries</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right cards -->
-      <div class="about-cards">
-        <div class="about-card reveal reveal-delay-1">
-          <div class="about-card-icon gold">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-          </div>
-          <div>
-            <h3>Education</h3>
-            <p><strong>BSc (Hons) Computing</strong> — Coventry University, UK · 2019–2020<br>
-               <strong>Bachelor's in IT</strong> — Softwarica College, Nepal · 2016–2020</p>
-          </div>
-        </div>
-
-        <div class="about-card reveal reveal-delay-2">
-          <div class="about-card-icon amber">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
-          </div>
-          <div>
-            <h3>Current Role</h3>
-            <p><strong>Senior Software Engineer @ Dhuni Software</strong><br>
-               Feb 2022 – Present · FDA-compliant systems, pharma workflows, team leadership</p>
-          </div>
-        </div>
-
-        <div class="about-card reveal reveal-delay-3">
-          <div class="about-card-icon teal">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          </div>
-          <div>
-            <h3>Location &amp; Availability</h3>
-            <p><strong>Kathmandu, Nepal</strong> · Open to remote &amp; international opportunities · Available immediately</p>
-          </div>
-        </div>
-      </div>
-    </div>
+  <!-- Scroll hint -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0" style="animation:fadeIn 1s 1.4s forwards">
+    <span class="font-mono text-[0.6rem] tracking-[0.2em] uppercase text-muted">Scroll</span>
+    <div class="scroll-line w-px h-10 bg-gradient-to-b from-rust to-transparent"></div>
   </div>
 </section>
 
-<!-- ── SKILLS ─────────────────────────────────────────────── -->
-<section id="skills">
-  <div class="container">
-    <div class="skills-header">
-      <div>
-        <div class="section-tag reveal">Technical Arsenal</div>
-        <h2 class="section-title reveal reveal-delay-1">Tools &amp;<br>Technologies</h2>
+<!-- ═══════════ ABOUT ═══════════ -->
+<section id="about" class="py-24 md:py-28 px-6 md:px-10 lg:px-12 bg-warmw border-t border-ink/10">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[5fr_4fr] gap-12 lg:gap-20 items-start">
+    <!-- Left text -->
+    <div>
+      <div class="reveal section-label inline-flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.2em] uppercase text-rust mb-4 before:content-[''] before:w-4 before:h-px before:bg-rust">About</div>
+      <h2 class="reveal d1 font-serif leading-tight tracking-tight text-ink mb-8" style="font-size:clamp(2rem,4.5vw,3.4rem)">The person<br>behind the <em class="text-rust">code</em></h2>
+
+      <div class="reveal d2 space-y-5">
+        <p class="drop-cap text-base md:text-lg leading-relaxed text-ink3">I'm a <strong class="text-ink font-bold">Senior Software Engineer</strong> based in Kathmandu, Nepal, with over six years building full-stack applications that hold up under pressure. From early freelance work to leading cross-continental teams for US-based pharma clients, I've grown from writing code to architecting systems.</p>
+        <p class="text-base md:text-lg leading-relaxed text-ink3">Currently at <strong class="text-ink font-bold">Dhuni Software</strong>, I serve as an offshore partner for US clients — most notably building FDA-compliant product lifecycle management tools that outpace commercial alternatives in both flexibility and regulatory depth. I've had the privilege of working with <strong class="text-ink font-bold">Gilead Sciences</strong> and leading both frontend and mobile teams.</p>
+        <p class="text-base md:text-lg leading-relaxed text-ink3">Outside of work, I write about the things engineers don't discuss enough: when to take on technical debt intentionally, and why the real frontier of engineering isn't in the cloud.</p>
       </div>
-      <p class="skills-intro reveal reveal-delay-2">A battle-tested toolkit refined over 6+ years of production work — from FDA-regulated pharma platforms to high-traffic consumer apps.</p>
+
+      <!-- Stats -->
+      <div class="reveal d3 mt-8 grid grid-cols-3 border border-ink/10 rounded-lg overflow-hidden">
+        <div class="py-5 px-3 text-center bg-sand2 border-r border-ink/10">
+          <div class="font-serif text-4xl text-rust leading-none mb-1">6+</div>
+          <div class="font-mono text-[0.65rem] font-bold tracking-widest uppercase text-muted">Yrs Exp</div>
+        </div>
+        <div class="py-5 px-3 text-center bg-sand2 border-r border-ink/10">
+          <div class="font-serif text-4xl text-rust leading-none mb-1">12+</div>
+          <div class="font-mono text-[0.65rem] font-bold tracking-widest uppercase text-muted">Projects</div>
+        </div>
+        <div class="py-5 px-3 text-center bg-sand2">
+          <div class="font-serif text-4xl text-rust leading-none mb-1">3</div>
+          <div class="font-mono text-[0.65rem] font-bold tracking-widest uppercase text-muted">Countries</div>
+        </div>
+      </div>
     </div>
 
-    <div class="skills-grid reveal">
+    <!-- Right meta cards -->
+    <div class="reveal d2 flex flex-col gap-4">
+      <!-- Education -->
+      <div class="pl-4 border-l-4 border-rust bg-sand rounded-r-lg py-4 pr-4">
+        <h4 class="font-mono text-[0.68rem] font-bold tracking-widest uppercase text-rust mb-3">Education</h4>
+        <div class="space-y-2.5">
+          <div>
+            <p class="text-sm font-bold text-ink leading-snug">MSc Data Science &amp; Computational Intelligence</p>
+            <p class="text-xs text-muted font-mono">Coventry University, UK · 2025–2026</p>
+          </div>
+          <div>
+            <p class="text-sm font-bold text-ink leading-snug">BSc (Hons) Computing</p>
+            <p class="text-xs text-muted font-mono">Coventry University, UK · 2019–2020</p>
+          </div>
+          <div>
+            <p class="text-sm font-bold text-ink leading-snug">Bachelor's in IT</p>
+            <p class="text-xs text-muted font-mono">Softwarica College, Nepal · 2016–2020</p>
+          </div>
+        </div>
+      </div>
+      <!-- Current role -->
+      <div class="pl-4 border-l-4 border-bluep bg-sand rounded-r-lg py-4 pr-4">
+        <h4 class="font-mono text-[0.68rem] font-bold tracking-widest uppercase text-bluep mb-2">Current Role</h4>
+        <p class="text-sm font-bold text-ink">Senior Software Engineer</p>
+        <p class="text-sm text-ink3">Dhuni Software · Feb 2022 – Present</p>
+        <p class="text-xs text-muted mt-1">FDA-compliant systems, team leadership</p>
+      </div>
+      <!-- Location -->
+      <div class="pl-4 border-l-4 border-sage bg-sand rounded-r-lg py-4 pr-4">
+        <h4 class="font-mono text-[0.68rem] font-bold tracking-widest uppercase text-sage mb-2">Location &amp; Availability</h4>
+        <p class="text-sm font-bold text-ink">Kathmandu, Nepal</p>
+        <p class="text-sm text-ink3">Open to remote &amp; international roles</p>
+        <p class="text-xs text-muted mt-1">Available immediately</p>
+      </div>
+      <!-- Contact -->
+      <div class="pl-4 border-l-4 border-gold bg-sand rounded-r-lg py-4 pr-4">
+        <h4 class="font-mono text-[0.68rem] font-bold tracking-widest uppercase text-gold mb-2">Contact</h4>
+        <p class="text-sm font-bold text-ink">odarisujan@gmail.com</p>
+        <p class="text-sm text-ink3">+977-9817091757</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SKILLS ═══════════ -->
+<section id="skills" class="py-24 md:py-28 px-6 md:px-10 lg:px-12 bg-sand border-t border-ink/10">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-end mb-12">
+      <div>
+        <div class="reveal inline-flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.2em] uppercase text-rust mb-3 before:content-[''] before:w-4 before:h-px before:bg-rust">Technical Arsenal</div>
+        <h2 class="reveal d1 font-serif leading-tight tracking-tight text-ink" style="font-size:clamp(2rem,4.5vw,3.4rem)">Tools &amp; <em class="text-rust">Technologies</em></h2>
+      </div>
+      <p class="reveal d2 text-base leading-relaxed text-ink3">A battle-tested toolkit built over six years of production work — from FDA-regulated pharma platforms to high-traffic consumer apps. Every tool here has earned its place.</p>
+    </div>
+
+    <div class="reveal grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
       <!-- Frontend -->
-      <div class="skill-col">
-        <div class="skill-col-icon red">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 3c4.5 2.5 7 6 7 9s-2.5 6.5-7 9"/><path d="M12 3c-4.5 2.5-7 6-7 9s2.5 6.5 7 9"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+      <div class="skill-group bg-warmw border border-ink/10 rounded-xl p-6">
+        <div class="flex items-center gap-3 pb-4 mb-4 border-b border-ink/10">
+          <div class="w-9 h-9 rounded-lg bg-rust/10 text-rust flex items-center justify-center flex-shrink-0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3c4.5 2.5 7 6 7 9s-2.5 6.5-7 9M12 3c-4.5 2.5-7 6-7 9s2.5 6.5 7 9"/></svg>
+          </div>
+          <h3 class="text-xs font-bold tracking-widest uppercase text-ink3">Frontend</h3>
         </div>
-        <h3>Frontend</h3>
-        <div class="skill-item"><div class="skill-dot"></div> React.js</div>
-        <div class="skill-item"><div class="skill-dot"></div> Next.js</div>
-        <div class="skill-item"><div class="skill-dot"></div> SvelteKit</div>
-        <div class="skill-item"><div class="skill-dot"></div> Redux / Zustand</div>
-        <div class="skill-item"><div class="skill-dot"></div> Tailwind CSS</div>
-        <div class="skill-item"><div class="skill-dot"></div> Material UI</div>
-        <div class="skill-item"><div class="skill-dot"></div> Ant Design</div>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">React.js</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Next.js</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">SvelteKit</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Redux</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Zustand</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Tailwind CSS</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Material UI</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Ant Design</span>
+        </div>
       </div>
-
       <!-- Backend -->
-      <div class="skill-col">
-        <div class="skill-col-icon green">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <div class="skill-group bg-warmw border border-ink/10 rounded-xl p-6">
+        <div class="flex items-center gap-3 pb-4 mb-4 border-b border-ink/10">
+          <div class="w-9 h-9 rounded-lg bg-sage/10 text-sage flex items-center justify-content-center flex-shrink-0 flex items-center justify-center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <h3 class="text-xs font-bold tracking-widest uppercase text-ink3">Backend</h3>
         </div>
-        <h3>Backend</h3>
-        <div class="skill-item"><div class="skill-dot"></div> Node.js</div>
-        <div class="skill-item"><div class="skill-dot"></div> Express.js</div>
-        <div class="skill-item"><div class="skill-dot"></div> GraphQL (Apollo)</div>
-        <div class="skill-item"><div class="skill-dot"></div> REST APIs</div>
-        <div class="skill-item"><div class="skill-dot"></div> Microservices</div>
-        <div class="skill-item"><div class="skill-dot"></div> WebSockets</div>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Node.js</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Express.js</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">GraphQL</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Apollo</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">REST APIs</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Microservices</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">WebSockets</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Django</span>
+        </div>
       </div>
-
       <!-- Data & Cloud -->
-      <div class="skill-col">
-        <div class="skill-col-icon blue">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      <div class="skill-group bg-warmw border border-ink/10 rounded-xl p-6">
+        <div class="flex items-center gap-3 pb-4 mb-4 border-b border-ink/10">
+          <div class="w-9 h-9 rounded-lg bg-bluep/10 text-bluep flex items-center justify-center flex-shrink-0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <h3 class="text-xs font-bold tracking-widest uppercase text-ink3">Data &amp; Cloud</h3>
         </div>
-        <h3>Data &amp; Cloud</h3>
-        <div class="skill-item"><div class="skill-dot"></div> MongoDB</div>
-        <div class="skill-item"><div class="skill-dot"></div> PostgreSQL / MySQL</div>
-        <div class="skill-item"><div class="skill-dot"></div> Firebase</div>
-        <div class="skill-item"><div class="skill-dot"></div> AWS</div>
-        <div class="skill-item"><div class="skill-dot"></div> Nginx</div>
-        <div class="skill-item"><div class="skill-dot"></div> Git &amp; GitHub</div>
-        <div class="skill-item"><div class="skill-dot"></div> Docker (basics)</div>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">MongoDB</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">PostgreSQL</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">MySQL</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Firebase</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">AWS</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Nginx</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Docker</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Git</span>
+        </div>
       </div>
-
-      <!-- Tooling -->
-      <div class="skill-col">
-        <div class="skill-col-icon orange">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+      <!-- Tools -->
+      <div class="skill-group bg-warmw border border-ink/10 rounded-xl p-6">
+        <div class="flex items-center gap-3 pb-4 mb-4 border-b border-ink/10">
+          <div class="w-9 h-9 rounded-lg bg-gold/10 text-gold flex items-center justify-center flex-shrink-0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <h3 class="text-xs font-bold tracking-widest uppercase text-ink3">Tools &amp; More</h3>
         </div>
-        <h3>Tools &amp; More</h3>
-        <div class="skill-item"><div class="skill-dot"></div> React Native</div>
-        <div class="skill-item"><div class="skill-dot"></div> Figma</div>
-        <div class="skill-item"><div class="skill-dot"></div> SASS / CSS Modules</div>
-        <div class="skill-item"><div class="skill-dot"></div> Agile / Scrum</div>
-        <div class="skill-item"><div class="skill-dot"></div> Jira</div>
-        <div class="skill-item"><div class="skill-dot"></div> Jest / Testing</div>
-        <div class="skill-item"><div class="skill-dot"></div> MediaSoup</div>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">React Native</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Figma</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">SASS</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Agile/Scrum</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Jira</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Jest</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">MediaSoup</span>
+          <span class="px-3 py-1.5 bg-sand2 rounded-full text-xs text-ink3">Stripe</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── EXPERIENCE ─────────────────────────────────────────── -->
-<section id="experience">
-  <div class="container">
-    <div class="section-tag reveal">Career Journey</div>
-    <h2 class="section-title reveal reveal-delay-1">Where I've<br>Been Building</h2>
+<!-- ═══════════ EXPERIENCE ═══════════ -->
+<section id="experience" class="py-24 md:py-28 px-6 md:px-10 lg:px-12 bg-warmw border-t border-ink/10">
+  <div class="max-w-6xl mx-auto">
+    <div class="inline-flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.2em] uppercase text-rust mb-3 before:content-[''] before:w-4 before:h-px before:bg-rust reveal">Career Journey</div>
+    <h2 class="reveal d1 font-serif leading-tight tracking-tight text-ink mb-12" style="font-size:clamp(2rem,4.5vw,3.4rem)">Where I've been <em class="text-rust">building</em></h2>
 
-    <div class="exp-list">
+    <div class="space-y-0 divide-y divide-ink/10 border-t border-ink/10">
 
       <!-- Dhuni -->
-      <div class="exp-item reveal">
-        <div class="exp-meta">
-          <div class="exp-period">Feb 2022 — Present</div>
-          <span class="exp-badge current">● Current</span>
-        </div>
-        <div class="exp-content">
-          <h3>Senior Software Engineer</h3>
-          <div class="exp-company">Dhuni Software Pvt. Ltd.</div>
-          <div class="exp-location">Kathmandu, Nepal</div>
-          <ul class="exp-bullets">
-            <li>Developed FDA-compliant PLM system for food &amp; pharma industries using React and SvelteKit — exceeds ReciPal in flexibility &amp; regulatory compliance</li>
-            <li>Contract developer at <strong>Gilead Sciences</strong> — built secure pharmaceutical workflow automation tools</li>
-            <li>Led frontend &amp; mobile teams for a job portal built with Next.js + React Native</li>
-            <li>Tech lead for Workflow Informatics platform — Django + React + GraphQL architecture</li>
-            <li>Mentored junior engineers and established reusable component systems across projects</li>
-          </ul>
-          <div class="exp-tags">
-            <span class="exp-tag">React</span>
-            <span class="exp-tag">SvelteKit</span>
-            <span class="exp-tag">Next.js</span>
-            <span class="exp-tag">React Native</span>
-            <span class="exp-tag">Node.js</span>
-            <span class="exp-tag">GraphQL</span>
-            <span class="exp-tag">FDA Compliance</span>
-            <span class="exp-tag">Team Lead</span>
+      <div class="exp-item reveal py-8 md:py-10 pl-0 md:pl-6">
+        <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-12">
+          <div class="pt-1 flex md:flex-col flex-row flex-wrap items-start gap-3 md:gap-2">
+            <div class="font-mono text-xs text-muted tracking-wide">Feb 2022 — Present</div>
+            <span class="inline-block px-3 py-1 text-[0.65rem] font-bold tracking-widest uppercase rounded-sm bg-rust/10 text-rust border border-rust/20">● Current</span>
+          </div>
+          <div>
+            <h3 class="font-serif text-2xl md:text-3xl text-ink mb-0.5">Senior Software Engineer</h3>
+            <div class="text-sm font-bold text-rust mb-1">Dhuni Software Pvt. Ltd.</div>
+            <div class="font-mono text-xs text-muted mb-5">Kathmandu, Nepal</div>
+            <ul class="space-y-3 mb-5">
+              <li class="flex gap-3 text-sm md:text-base leading-relaxed text-ink3">
+                <span class="text-rust font-bold flex-shrink-0 mt-0.5">–</span>
+                <span>Developed FDA-compliant PLM system for food &amp; pharma industries using React and SvelteKit — surpassing ReciPal in flexibility and regulatory compliance</span>
+              </li>
+              <li class="flex gap-3 text-sm md:text-base leading-relaxed text-ink3">
+                <span class="text-rust font-bold flex-shrink-0 mt-0.5">–</span>
+                <span>Contract developer at <strong class="text-ink font-bold">Gilead Sciences</strong> — built secure pharmaceutical workflow automation tools used in regulated production environments</span>
+              </li>
+              <li class="flex gap-3 text-sm md:text-base leading-relaxed text-ink3">
+                <span class="text-rust font-bold flex-shrink-0 mt-0.5">–</span>
+                <span>Led frontend &amp; mobile teams for a job portal built with Next.js + React Native, including real-time notifications and cross-platform delivery</span>
+              </li>
+              <li class="flex gap-3 text-sm md:text-base leading-relaxed text-ink3">
+                <span class="text-rust font-bold flex-shrink-0 mt-0.5">–</span>
+                <span>Tech lead for Workflow Informatics platform — architected Django + React + GraphQL system for complex scientific data workflows</span>
+              </li>
+              <li class="flex gap-3 text-sm md:text-base leading-relaxed text-ink3">
+                <span class="text-rust font-bold flex-shrink-0 mt-0.5">–</span>
+                <span>Mentored junior engineers and established reusable component systems adopted across all active projects</span>
+              </li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">React</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">SvelteKit</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">Next.js</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">React Native</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">Node.js</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">GraphQL</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">FDA Compliance</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">Team Lead</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Insight Workshop -->
-      <div class="exp-item reveal">
-        <div class="exp-meta">
-          <div class="exp-period">Dec 2020 — Feb 2022</div>
-          <span class="exp-badge past">Past</span>
-        </div>
-        <div class="exp-content">
-          <h3>Software Engineer</h3>
-          <div class="exp-company">Insight Workshop</div>
-          <div class="exp-location">Kathmandu, Nepal</div>
-          <ul class="exp-bullets">
-            <li>Built a real estate listing platform with React, Firebase &amp; GraphQL — advanced search &amp; property management</li>
-            <li>Developed ecommerce tools for US clients using Next.js and Node.js</li>
-            <li>Integrated MediaSoup video calling into a collaborative learning platform</li>
-          </ul>
-          <div class="exp-tags">
-            <span class="exp-tag">React</span>
-            <span class="exp-tag">Firebase</span>
-            <span class="exp-tag">GraphQL</span>
-            <span class="exp-tag">Next.js</span>
-            <span class="exp-tag">Node.js</span>
-            <span class="exp-tag">MediaSoup</span>
+      <!-- Insight -->
+      <div class="exp-item reveal py-8 md:py-10 pl-0 md:pl-6">
+        <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-12">
+          <div class="pt-1 flex md:flex-col flex-row flex-wrap items-start gap-3 md:gap-2">
+            <div class="font-mono text-xs text-muted tracking-wide">Dec 2020 — Feb 2022</div>
+            <span class="inline-block px-3 py-1 text-[0.65rem] font-bold tracking-widest uppercase rounded-sm bg-sand2 text-muted border border-ink/10">Past</span>
+          </div>
+          <div>
+            <h3 class="font-serif text-2xl md:text-3xl text-ink mb-0.5">Software Engineer</h3>
+            <div class="text-sm font-bold text-rust mb-1">Insight Workshop</div>
+            <div class="font-mono text-xs text-muted mb-5">Kathmandu, Nepal</div>
+            <ul class="space-y-3 mb-5">
+              <li class="flex gap-3 text-sm md:text-base leading-relaxed text-ink3">
+                <span class="text-rust font-bold flex-shrink-0 mt-0.5">–</span>
+                <span>Built full-featured real estate listing platform with React, Firebase &amp; GraphQL — advanced search filters and property management dashboards</span>
+              </li>
+              <li class="flex gap-3 text-sm md:text-base leading-relaxed text-ink3">
+                <span class="text-rust font-bold flex-shrink-0 mt-0.5">–</span>
+                <span>Developed ecommerce tooling for US clients using Next.js and Node.js with end-to-end product catalog and checkout flows</span>
+              </li>
+              <li class="flex gap-3 text-sm md:text-base leading-relaxed text-ink3">
+                <span class="text-rust font-bold flex-shrink-0 mt-0.5">–</span>
+                <span>Integrated MediaSoup video calling into a collaborative learning platform supporting real-time video-based assignments and peer sessions</span>
+              </li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">React</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">Firebase</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">GraphQL</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">Next.js</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">Node.js</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">MediaSoup</span>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Freelance -->
-      <div class="exp-item reveal">
-        <div class="exp-meta">
-          <div class="exp-period">Mar 2019 — Nov 2020</div>
-          <span class="exp-badge freelance">Freelance</span>
-        </div>
-        <div class="exp-content">
-          <h3>Freelance Web Developer</h3>
-          <div class="exp-company">Remote Projects</div>
-          <div class="exp-location">Kathmandu, Nepal</div>
-          <ul class="exp-bullets">
-            <li>Built Barzolah ecommerce app — React + Node.js + Stripe payment integration with full order management</li>
-            <li>Delivered client and college projects using Firebase, MongoDB, and various React patterns</li>
-          </ul>
-          <div class="exp-tags">
-            <span class="exp-tag">React</span>
-            <span class="exp-tag">Node.js</span>
-            <span class="exp-tag">Stripe</span>
-            <span class="exp-tag">MongoDB</span>
-            <span class="exp-tag">Firebase</span>
+      <div class="exp-item reveal py-8 md:py-10 pl-0 md:pl-6">
+        <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-12">
+          <div class="pt-1 flex md:flex-col flex-row flex-wrap items-start gap-3 md:gap-2">
+            <div class="font-mono text-xs text-muted tracking-wide">Mar 2019 — Nov 2020</div>
+            <span class="inline-block px-3 py-1 text-[0.65rem] font-bold tracking-widest uppercase rounded-sm bg-gold/10 text-gold border border-gold/20">Freelance</span>
+          </div>
+          <div>
+            <h3 class="font-serif text-2xl md:text-3xl text-ink mb-0.5">Freelance Web Developer</h3>
+            <div class="text-sm font-bold text-rust mb-1">Remote Projects</div>
+            <div class="font-mono text-xs text-muted mb-5">Kathmandu, Nepal</div>
+            <ul class="space-y-3 mb-5">
+              <li class="flex gap-3 text-sm md:text-base leading-relaxed text-ink3">
+                <span class="text-rust font-bold flex-shrink-0 mt-0.5">–</span>
+                <span>Built Barzolah — a complete ecommerce app with React + Node.js, Stripe payment integration, and full order lifecycle management</span>
+              </li>
+              <li class="flex gap-3 text-sm md:text-base leading-relaxed text-ink3">
+                <span class="text-rust font-bold flex-shrink-0 mt-0.5">–</span>
+                <span>Delivered client and academic projects across Firebase, MongoDB, and various React patterns, building strong independent problem-solving instincts</span>
+              </li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">React</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">Node.js</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">Stripe</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">MongoDB</span>
+              <span class="px-3 py-1 bg-sand border border-ink/10 rounded-full font-mono text-xs text-ink3">Firebase</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1292,321 +526,311 @@
   </div>
 </section>
 
-<!-- ── PROJECTS ────────────────────────────────────────────── -->
-<section id="projects">
-  <div class="container">
-    <div class="projects-header">
+<!-- ═══════════ PROJECTS ═══════════ -->
+<section id="projects" class="py-24 md:py-28 px-6 md:px-10 lg:px-12 bg-sand border-t border-ink/10">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-12">
       <div>
-        <div class="section-tag reveal">Selected Work</div>
-        <h2 class="section-title reveal reveal-delay-1">Featured<br>Projects</h2>
+        <div class="reveal inline-flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.2em] uppercase text-rust mb-3 before:content-[''] before:w-4 before:h-px before:bg-rust">Selected Work</div>
+        <h2 class="reveal d1 font-serif leading-tight tracking-tight text-ink" style="font-size:clamp(2rem,4.5vw,3.4rem)">Featured <em class="text-rust">Projects</em></h2>
       </div>
-      <p class="reveal reveal-delay-2" style="font-size:0.85rem;color:var(--muted);max-width:260px;line-height:1.7;">A selection of impactful work across regulated industries and consumer applications.</p>
+      <p class="reveal text-sm text-muted max-w-[220px] leading-relaxed md:text-right">Impactful work across regulated industries and consumer-grade apps.</p>
     </div>
 
-    <div class="projects-grid reveal">
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
-      <!-- PLM System (featured) -->
-      <div class="project-card featured">
-        <div class="project-arrow">
+      <!-- PLM — featured spans 2 cols -->
+      <div class="project-card relative lg:col-span-2 bg-ink rounded-xl p-6 md:p-8 overflow-hidden card-hover border border-transparent hover:shadow-2xl">
+        <div class="project-arrow absolute top-5 right-5 w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-white/40">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </div>
-        <div class="project-num">01 / Featured</div>
-        <div class="project-icon" style="background:rgba(245,200,66,0.1);color:var(--gold)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v11m0 0H5m4 0h10m0-11v11m0 0h-4M4 17v4M20 17v4"/></svg>
+        <div class="font-mono text-[0.65rem] tracking-widest text-white/30 mb-4">01 / Featured</div>
+        <span class="inline-block mb-3 px-2.5 py-1 text-[0.62rem] font-bold tracking-widest uppercase rounded-sm bg-rust/20 text-orange-300 border border-rust/30">Active Production</span>
+        <h3 class="font-serif text-2xl md:text-3xl text-sand mb-1">PLM System</h3>
+        <div class="text-xs font-bold tracking-widest uppercase text-orange-400 mb-4">FDA Compliant · Pharma &amp; Food</div>
+        <p class="text-sm md:text-base leading-relaxed text-white/60 mb-5">Product Lifecycle Management platform for food and pharmaceutical industries. Built with React and SvelteKit, it surpasses ReciPal in regulatory depth and workflow flexibility. Covers nutritional tracking, formula management, compliance documentation, and audit trails meeting FDA 21 CFR requirements.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-2.5 py-1 bg-white/10 border border-white/15 rounded-full font-mono text-[0.65rem] text-white/60">React</span>
+          <span class="px-2.5 py-1 bg-white/10 border border-white/15 rounded-full font-mono text-[0.65rem] text-white/60">SvelteKit</span>
+          <span class="px-2.5 py-1 bg-white/10 border border-white/15 rounded-full font-mono text-[0.65rem] text-white/60">Node.js</span>
+          <span class="px-2.5 py-1 bg-white/10 border border-white/15 rounded-full font-mono text-[0.65rem] text-white/60">GraphQL</span>
+          <span class="px-2.5 py-1 bg-white/10 border border-white/15 rounded-full font-mono text-[0.65rem] text-white/60">FDA Compliance</span>
         </div>
-        <h3>PLM System</h3>
-        <div class="project-sub" style="color:var(--gold)">FDA Compliant · Current</div>
-        <p class="project-desc">Product Lifecycle Management platform for food &amp; pharmaceutical industries. Built with React and SvelteKit, it surpasses ReciPal in flexibility and exceeds FDA regulatory requirements. Complete nutritional tracking, formula management, and compliance workflows.</p>
-        <div class="project-stack">
-          <span class="stack-tag">React</span>
-          <span class="stack-tag">SvelteKit</span>
-          <span class="stack-tag">Node.js</span>
-          <span class="stack-tag">FDA Compliance</span>
-          <span class="stack-tag">GraphQL</span>
-        </div>
-        <span class="project-status active">Active Production</span>
       </div>
 
       <!-- Workflow Informatics -->
-      <div class="project-card">
-        <div class="project-arrow">
+      <div class="project-card relative bg-warmw border border-ink/10 rounded-xl p-6 card-hover">
+        <div class="project-arrow absolute top-5 right-5 w-8 h-8 rounded-full border border-ink/15 flex items-center justify-center text-muted">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </div>
-        <div class="project-num">02</div>
-        <div class="project-icon" style="background:rgba(255,140,66,0.1);color:var(--amber)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h4M9 15h6"/></svg>
+        <div class="font-mono text-[0.65rem] tracking-widest text-muted2 mb-3">02</div>
+        <span class="inline-block mb-3 px-2.5 py-1 text-[0.62rem] font-bold tracking-widest uppercase rounded-sm bg-sage/10 text-sage border border-sage/20">Active</span>
+        <h3 class="font-serif text-xl text-ink mb-1">Workflow Informatics</h3>
+        <div class="text-xs font-bold tracking-widest uppercase text-rust mb-3">Tech Lead · Scientific</div>
+        <p class="text-sm leading-relaxed text-ink3 mb-4">Scientific data workflow platform with complex analytical UI. Led frontend architecture and Django-based backend design.</p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">Django</span>
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">React</span>
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">GraphQL</span>
         </div>
-        <h3>Workflow Informatics</h3>
-        <div class="project-sub" style="color:var(--amber)">Tech Lead · Scientific</div>
-        <p class="project-desc">Scientific data workflow platform. Led frontend architecture and Django-based backend with complex analytical UI.</p>
-        <div class="project-stack">
-          <span class="stack-tag">Django</span>
-          <span class="stack-tag">React</span>
-          <span class="stack-tag">GraphQL</span>
-        </div>
-        <span class="project-status active">Active Production</span>
       </div>
 
       <!-- Job Portal -->
-      <div class="project-card">
-        <div class="project-arrow">
+      <div class="project-card relative bg-warmw border border-ink/10 rounded-xl p-6 card-hover">
+        <div class="project-arrow absolute top-5 right-5 w-8 h-8 rounded-full border border-ink/15 flex items-center justify-center text-muted">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </div>
-        <div class="project-num">03</div>
-        <div class="project-icon" style="background:rgba(167,139,250,0.1);color:#a78bfa">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+        <div class="font-mono text-[0.65rem] tracking-widest text-muted2 mb-3">03</div>
+        <span class="inline-block mb-3 px-2.5 py-1 text-[0.62rem] font-bold tracking-widest uppercase rounded-sm bg-sage/10 text-sage border border-sage/20">Active</span>
+        <h3 class="font-serif text-xl text-ink mb-1">Job Portal</h3>
+        <div class="text-xs font-bold tracking-widest uppercase text-rust mb-3">Team Lead · Full-Stack</div>
+        <p class="text-sm leading-relaxed text-ink3 mb-4">Led frontend &amp; mobile teams for a job marketplace. Web + native mobile with real-time notifications and candidate management.</p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">Next.js</span>
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">React Native</span>
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">GraphQL</span>
         </div>
-        <h3>Job Portal</h3>
-        <div class="project-sub" style="color:#a78bfa">Team Lead · Full-Stack</div>
-        <p class="project-desc">Led frontend &amp; mobile teams for a job marketplace. Web + native mobile with real-time notifications.</p>
-        <div class="project-stack">
-          <span class="stack-tag">Next.js</span>
-          <span class="stack-tag">React Native</span>
-          <span class="stack-tag">GraphQL</span>
-        </div>
-        <span class="project-status active">Active Production</span>
       </div>
 
       <!-- Real Estate -->
-      <div class="project-card">
-        <div class="project-arrow">
+      <div class="project-card relative bg-warmw border border-ink/10 rounded-xl p-6 card-hover">
+        <div class="project-arrow absolute top-5 right-5 w-8 h-8 rounded-full border border-ink/15 flex items-center justify-center text-muted">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </div>
-        <div class="project-num">04</div>
-        <div class="project-icon" style="background:rgba(52,211,153,0.1);color:#34d399">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <div class="font-mono text-[0.65rem] tracking-widest text-muted2 mb-3">04</div>
+        <span class="inline-block mb-3 px-2.5 py-1 text-[0.62rem] font-bold tracking-widest uppercase rounded-sm bg-sand2 text-muted border border-ink/10">Completed</span>
+        <h3 class="font-serif text-xl text-ink mb-1">Real Estate Platform</h3>
+        <div class="text-xs font-bold tracking-widest uppercase text-rust mb-3">Full-Stack · GraphQL</div>
+        <p class="text-sm leading-relaxed text-ink3 mb-4">Complete listing platform with advanced search, real-time data, and full property management tools.</p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">React</span>
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">Firebase</span>
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">GraphQL</span>
         </div>
-        <h3>Real Estate Platform</h3>
-        <div class="project-sub" style="color:#34d399">Full-Stack · GraphQL</div>
-        <p class="project-desc">Complete listing platform with advanced filters, real-time data, and property management tools.</p>
-        <div class="project-stack">
-          <span class="stack-tag">React</span>
-          <span class="stack-tag">Firebase</span>
-          <span class="stack-tag">GraphQL</span>
-        </div>
-        <span class="project-status done">Completed</span>
       </div>
 
       <!-- Learning Platform -->
-      <div class="project-card">
-        <div class="project-arrow">
+      <div class="project-card relative bg-warmw border border-ink/10 rounded-xl p-6 card-hover">
+        <div class="project-arrow absolute top-5 right-5 w-8 h-8 rounded-full border border-ink/15 flex items-center justify-center text-muted">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </div>
-        <div class="project-num">05</div>
-        <div class="project-icon" style="background:rgba(96,165,250,0.1);color:#60a5fa">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        <div class="font-mono text-[0.65rem] tracking-widest text-muted2 mb-3">05</div>
+        <span class="inline-block mb-3 px-2.5 py-1 text-[0.62rem] font-bold tracking-widest uppercase rounded-sm bg-sand2 text-muted border border-ink/10">Completed</span>
+        <h3 class="font-serif text-xl text-ink mb-1">Learning Platform</h3>
+        <div class="text-xs font-bold tracking-widest uppercase text-rust mb-3">Video Integration</div>
+        <p class="text-sm leading-relaxed text-ink3 mb-4">Collaborative learning with MediaSoup video calling, video-based assignments, and real-time peer tools.</p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">React</span>
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">MediaSoup</span>
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">Node.js</span>
         </div>
-        <h3>Learning Platform</h3>
-        <div class="project-sub" style="color:#60a5fa">Video Integration</div>
-        <p class="project-desc">Collaborative learning with MediaSoup video calling, video-based assignments, and real-time tools.</p>
-        <div class="project-stack">
-          <span class="stack-tag">React</span>
-          <span class="stack-tag">MediaSoup</span>
-          <span class="stack-tag">Node.js</span>
-        </div>
-        <span class="project-status done">Completed</span>
       </div>
 
       <!-- Barzolah -->
-      <div class="project-card">
-        <div class="project-arrow">
+      <div class="project-card relative bg-warmw border border-ink/10 rounded-xl p-6 card-hover">
+        <div class="project-arrow absolute top-5 right-5 w-8 h-8 rounded-full border border-ink/15 flex items-center justify-center text-muted">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </div>
-        <div class="project-num">06</div>
-        <div class="project-icon" style="background:rgba(251,191,36,0.1);color:#fbbf24">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        <div class="font-mono text-[0.65rem] tracking-widest text-muted2 mb-3">06</div>
+        <span class="inline-block mb-3 px-2.5 py-1 text-[0.62rem] font-bold tracking-widest uppercase rounded-sm bg-sand2 text-muted border border-ink/10">Completed</span>
+        <h3 class="font-serif text-xl text-ink mb-1">Barzolah Ecommerce</h3>
+        <div class="text-xs font-bold tracking-widest uppercase text-rust mb-3">Custom Build · Stripe</div>
+        <p class="text-sm leading-relaxed text-ink3 mb-4">Full ecommerce app with Stripe payments, product catalog, checkout, and order lifecycle management.</p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">React</span>
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">Node.js</span>
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">Stripe</span>
+          <span class="px-2.5 py-1 bg-sand border border-ink/10 rounded-full font-mono text-[0.65rem] text-ink3">MongoDB</span>
         </div>
-        <h3>Barzolah Ecommerce</h3>
-        <div class="project-sub" style="color:#fbbf24">Custom Build · Stripe</div>
-        <p class="project-desc">Full ecommerce app with Stripe payments, product catalog, checkout, and order management.</p>
-        <div class="project-stack">
-          <span class="stack-tag">React</span>
-          <span class="stack-tag">Node.js</span>
-          <span class="stack-tag">Stripe</span>
-          <span class="stack-tag">MongoDB</span>
-        </div>
-        <span class="project-status done">Completed</span>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ── COMPETENCIES ───────────────────────────────────────── -->
-<section id="competencies">
-  <div class="container">
-    <div class="section-tag reveal">Core Strengths</div>
-    <h2 class="section-title reveal reveal-delay-1">Beyond the<br>Code</h2>
+<!-- ═══════════ ARTICLES ═══════════ -->
+<section id="articles" class="py-24 md:py-28 px-6 md:px-10 lg:px-12 bg-warmw border-t border-ink/10">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal inline-flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.2em] uppercase text-rust mb-3 before:content-[''] before:w-4 before:h-px before:bg-rust">Thinking Out Loud</div>
+    <h2 class="reveal d1 font-serif leading-tight tracking-tight text-ink mb-2" style="font-size:clamp(2rem,4.5vw,3.4rem)">Writing &amp; <em class="text-rust">Ideas</em></h2>
+    <p class="reveal d2 text-base leading-relaxed text-ink3 max-w-xl mb-10">I write about the things engineers don't discuss enough — strategic trade-offs, the nature of software craft, and where the real challenges in our field actually live.</p>
 
-    <div class="comp-grid reveal">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-      <div class="comp-card">
-        <div class="comp-card-icon" style="background:rgba(245,200,66,0.1);color:var(--gold)">
+      <a href="https://www.linkedin.com/pulse/technical-debt-isnt-problem-knowing-when-take-sujan-odari-ax9tc/" target="_blank" rel="noopener"
+         class="article-card reveal d1 relative bg-sand border border-ink/10 rounded-xl p-6 md:p-8 no-underline flex flex-col transition-all overflow-hidden">
+        <div class="flex items-center gap-3 mb-5">
+          <span class="px-2.5 py-1 text-[0.62rem] font-bold tracking-widest uppercase rounded-sm bg-rust/10 text-rust border border-rust/20">Engineering</span>
+          <span class="font-mono text-[0.65rem] tracking-widest uppercase text-muted">LinkedIn Pulse</span>
+        </div>
+        <h3 class="font-serif text-xl md:text-2xl text-ink leading-snug mb-4">Technical Debt Isn't the Problem — Knowing When to Take It Is</h3>
+        <blockquote class="pl-4 border-l-4 border-rust font-serif italic text-base text-ink3 leading-relaxed mb-4">"The real skill isn't avoiding debt. It's being deliberate about which debt you take on, and having a plan to repay it."</blockquote>
+        <p class="text-sm leading-relaxed text-ink3 flex-1 mb-5">Every engineering team carries technical debt, but most treat it as purely a cost to minimize. This piece reframes the conversation: strategic debt, taken consciously, is a tool for shipping value fast.</p>
+        <span class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-rust transition-all">
+          Read on LinkedIn
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
+      <a href="https://www.linkedin.com/pulse/real-engineering-frontier-isnt-cloud-sujan-odari-klxwc/" target="_blank" rel="noopener"
+         class="article-card reveal d2 relative bg-sand border border-ink/10 rounded-xl p-6 md:p-8 no-underline flex flex-col transition-all overflow-hidden">
+        <div class="flex items-center gap-3 mb-5">
+          <span class="px-2.5 py-1 text-[0.62rem] font-bold tracking-widest uppercase rounded-sm bg-bluep/10 text-bluep border border-bluep/20">Perspective</span>
+          <span class="font-mono text-[0.65rem] tracking-widest uppercase text-muted">LinkedIn Pulse</span>
+        </div>
+        <h3 class="font-serif text-xl md:text-2xl text-ink leading-snug mb-4">The Real Engineering Frontier Isn't the Cloud</h3>
+        <blockquote class="pl-4 border-l-4 border-bluep font-serif italic text-base text-ink3 leading-relaxed mb-4">"We obsess over infrastructure. The harder problems are the human systems software runs inside of — domain logic, compliance, the edge cases only domain experts know to ask about."</blockquote>
+        <p class="text-sm leading-relaxed text-ink3 flex-1 mb-5">A perspective on where the genuinely hard problems live. Beyond cloud hype, the real frontier is in deeply regulated, domain-specific software that survives contact with regulatory bodies and scientific workflows.</p>
+        <span class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-rust transition-all">
+          Read on LinkedIn
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ COMPETENCIES ═══════════ -->
+<section id="competencies" class="py-24 md:py-28 px-6 md:px-10 lg:px-12 bg-sand border-t border-ink/10">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal inline-flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.2em] uppercase text-rust mb-3 before:content-[''] before:w-4 before:h-px before:bg-rust">Core Strengths</div>
+    <h2 class="reveal d1 font-serif leading-tight tracking-tight text-ink mb-12" style="font-size:clamp(2rem,4.5vw,3.4rem)">Beyond the <em class="text-rust">code</em></h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="reveal d1 bg-warmw border border-ink/10 rounded-xl p-6 card-hover">
+        <div class="w-10 h-10 rounded-lg bg-rust/10 text-rust flex items-center justify-center mb-4">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
         </div>
-        <h3>Team Leadership</h3>
-        <p>Guided cross-continental remote teams, frontend &amp; mobile groups, and architecture decisions in complex, high-stakes product environments.</p>
+        <h3 class="font-serif text-lg text-ink mb-2">Team Leadership</h3>
+        <p class="text-sm leading-relaxed text-ink3">Cross-continental remote teams, frontend &amp; mobile leads, and architecture ownership in high-stakes product environments.</p>
       </div>
-
-      <div class="comp-card">
-        <div class="comp-card-icon" style="background:rgba(96,165,250,0.1);color:#60a5fa">
+      <div class="reveal d2 bg-warmw border border-ink/10 rounded-xl p-6 card-hover">
+        <div class="w-10 h-10 rounded-lg bg-bluep/10 text-bluep flex items-center justify-center mb-4">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         </div>
-        <h3>Clean Code</h3>
-        <p>Relentless focus on maintainability, performance, and documentation. Code that future engineers (and future-you) can actually understand.</p>
+        <h3 class="font-serif text-lg text-ink mb-2">Clean Code</h3>
+        <p class="text-sm leading-relaxed text-ink3">Relentless focus on maintainability, performance, and documentation. Code that future engineers can actually understand.</p>
       </div>
-
-      <div class="comp-card">
-        <div class="comp-card-icon" style="background:rgba(251,191,36,0.1);color:#fbbf24">
+      <div class="reveal d3 bg-warmw border border-ink/10 rounded-xl p-6 card-hover">
+        <div class="w-10 h-10 rounded-lg bg-gold/10 text-gold flex items-center justify-center mb-4">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
-        <h3>Problem Solving</h3>
-        <p>Systematic, first-principles approach to complex challenges. Strong technical documentation and creative solution architecture.</p>
+        <h3 class="font-serif text-lg text-ink mb-2">Problem Solving</h3>
+        <p class="text-sm leading-relaxed text-ink3">Systematic, first-principles approach. Strong technical documentation and creative solution architecture for novel domain problems.</p>
       </div>
-
-      <div class="comp-card">
-        <div class="comp-card-icon" style="background:rgba(245,200,66,0.1);color:var(--gold)">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
-        </div>
-        <h3>Project Ownership</h3>
-        <p>End-to-end delivery from concept to production. Takes full accountability for outcomes — not just tasks.</p>
-      </div>
-
-      <div class="comp-card">
-        <div class="comp-card-icon" style="background:rgba(52,211,153,0.1);color:#34d399">
+      <div class="reveal d1 bg-warmw border border-ink/10 rounded-xl p-6 card-hover">
+        <div class="w-10 h-10 rounded-lg bg-sage/10 text-sage flex items-center justify-center mb-4">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <h3>FDA Compliance</h3>
-        <p>Hands-on experience in regulated pharmaceutical and food industry systems — where software errors have real consequences.</p>
+        <h3 class="font-serif text-lg text-ink mb-2">FDA Compliance</h3>
+        <p class="text-sm leading-relaxed text-ink3">Hands-on in regulated pharmaceutical and food systems — where software bugs carry real-world regulatory and safety consequences.</p>
       </div>
-
-      <div class="comp-card">
-        <div class="comp-card-icon" style="background:rgba(255,140,66,0.1);color:var(--amber)">
+      <div class="reveal d2 bg-warmw border border-ink/10 rounded-xl p-6 card-hover">
+        <div class="w-10 h-10 rounded-lg bg-rust/10 text-rust flex items-center justify-center mb-4">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+        </div>
+        <h3 class="font-serif text-lg text-ink mb-2">Project Ownership</h3>
+        <p class="text-sm leading-relaxed text-ink3">End-to-end delivery from concept to production. Full accountability for outcomes — not just assigned tasks.</p>
+      </div>
+      <div class="reveal d3 bg-warmw border border-ink/10 rounded-xl p-6 card-hover">
+        <div class="w-10 h-10 rounded-lg bg-bluep/10 text-bluep flex items-center justify-center mb-4">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
         </div>
-        <h3>System Architecture</h3>
-        <p>Designing scalable, maintainable architectures for both frontend and backend with a sharp eye for performance bottlenecks.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ── CONTACT ─────────────────────────────────────────────── -->
-<section id="contact">
-  <div class="container">
-    <div class="contact-inner">
-      <div class="section-tag reveal">Contact</div>
-      <h2 class="contact-cta-text reveal reveal-delay-1">
-        Let's build<br>something <span class="italic">remarkable</span>
-      </h2>
-      <p class="contact-sub reveal reveal-delay-2">
-        Open to exciting roles, collaborations, and conversations about tech, innovation, and what's next. Based in Kathmandu — working globally.
-      </p>
-
-      <div class="contact-channels reveal reveal-delay-3">
-        <a href="mailto:odarisujan@gmail.com" class="channel">
-          <div class="channel-icon" style="background:rgba(245,200,66,0.1);color:var(--gold)">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
-          </div>
-          <h4>Email</h4>
-          <p>odarisujan@gmail.com</p>
-        </a>
-
-        <a href="tel:+9779817091757" class="channel">
-          <div class="channel-icon" style="background:rgba(255,140,66,0.1);color:var(--amber)">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.01 2.22 2 2 0 012 .04h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-          </div>
-          <h4>Phone</h4>
-          <p>+977-9817091757</p>
-        </a>
-
-        <a href="https://linkedin.com/in/sujan-odari-532ba9152" target="_blank" rel="noopener" class="channel">
-          <div class="channel-icon" style="background:rgba(96,165,250,0.1);color:#60a5fa">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-          </div>
-          <h4>LinkedIn</h4>
-          <p>Connect with me</p>
-        </a>
-      </div>
-
-      <div class="reveal reveal-delay-4" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-        <a href="mailto:odarisujan@gmail.com" class="btn-primary">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          Send Email
-        </a>
-        <a href="https://linkedin.com/in/sujan-odari-532ba9152" target="_blank" rel="noopener" class="btn-ghost">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Visit LinkedIn
-        </a>
+        <h3 class="font-serif text-lg text-ink mb-2">System Architecture</h3>
+        <p class="text-sm leading-relaxed text-ink3">Scalable, maintainable architectures for frontend and backend with a sharp eye for performance bottlenecks and long-term trade-offs.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── FOOTER ─────────────────────────────────────────────── -->
-<footer class="container">
-  <div class="footer-left">© 2024 Sujan Odari · Senior Software Engineer</div>
-  <div class="footer-right">Crafted with precision ·
-    <a href="#home" style="color:var(--gold);text-decoration:none">↑ Back to top</a>
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact" class="contact-grad py-24 md:py-28 px-6 md:px-10 lg:px-12 border-t border-rust/20">
+  <div class="relative z-10 max-w-3xl mx-auto text-center">
+    <div class="reveal inline-flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.2em] uppercase mb-4 justify-center" style="color:rgba(255,220,190,0.75)">
+      <span class="w-4 h-px" style="background:rgba(255,220,190,0.75)"></span>
+      Get In Touch
+    </div>
+    <h2 class="reveal d1 font-serif leading-tight tracking-tight mb-5" style="font-size:clamp(2.2rem,5vw,4rem);color:#fff8f0">
+      Let's build something<br><em style="color:#ffd4a8">worth remembering</em>
+    </h2>
+    <p class="reveal d2 text-base leading-relaxed mb-12" style="color:rgba(255,240,220,0.65)">Open to exciting engineering roles, technical collaborations, and conversations about what comes next. Based in Kathmandu, working with teams globally.</p>
+
+    <!-- Channels -->
+    <div class="reveal d3 grid grid-cols-1 sm:grid-cols-3 gap-px mb-8 rounded-xl overflow-hidden border" style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.15)">
+      <a href="mailto:odarisujan@gmail.com" class="channel block no-underline py-8 px-5 text-center" style="background:rgba(255,255,255,0.06)">
+        <div class="channel-ico w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(255,255,255,0.15);color:#fff8f0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        </div>
+        <h4 class="font-mono text-[0.65rem] font-bold tracking-widest uppercase mb-1" style="color:rgba(255,230,200,0.5)">Email</h4>
+        <p class="text-sm font-semibold" style="color:rgba(255,248,240,0.9)">odarisujan@gmail.com</p>
+      </a>
+      <a href="tel:+9779817091757" class="channel block no-underline py-8 px-5 text-center" style="background:rgba(255,255,255,0.06)">
+        <div class="channel-ico w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(255,255,255,0.15);color:#fff8f0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.01 2.22 2 2 0 012 .04h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <h4 class="font-mono text-[0.65rem] font-bold tracking-widest uppercase mb-1" style="color:rgba(255,230,200,0.5)">Phone</h4>
+        <p class="text-sm font-semibold" style="color:rgba(255,248,240,0.9)">+977-9817091757</p>
+      </a>
+      <a href="https://linkedin.com/in/sujan-odari-532ba9152" target="_blank" rel="noopener" class="channel block no-underline py-8 px-5 text-center" style="background:rgba(255,255,255,0.06)">
+        <div class="channel-ico w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(255,255,255,0.15);color:#fff8f0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </div>
+        <h4 class="font-mono text-[0.65rem] font-bold tracking-widest uppercase mb-1" style="color:rgba(255,230,200,0.5)">LinkedIn</h4>
+        <p class="text-sm font-semibold" style="color:rgba(255,248,240,0.9)">Connect with me</p>
+      </a>
+    </div>
+
+    <!-- Buttons -->
+    <div class="reveal d4 flex flex-wrap gap-4 justify-center">
+      <a href="mailto:odarisujan@gmail.com" class="btn-primary inline-flex items-center gap-2 px-7 py-3.5 font-bold text-sm tracking-widest uppercase rounded-sm no-underline" style="background:#fff8f0;color:#c0522a">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Send Email
+      </a>
+      <a href="https://linkedin.com/in/sujan-odari-532ba9152" target="_blank" rel="noopener" class="btn-outline inline-flex items-center gap-2 px-7 py-3.5 font-bold text-sm tracking-widest uppercase rounded-sm no-underline" style="color:#fff8f0;border:1.5px solid rgba(255,248,240,0.35)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View LinkedIn
+      </a>
+    </div>
   </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="flex flex-col sm:flex-row justify-between items-center gap-2 px-6 md:px-10 lg:px-12 py-6 border-t" style="background:#7a3018;border-color:rgba(255,255,255,0.1)">
+  <span class="font-mono text-[0.7rem]" style="color:rgba(255,230,200,0.45)">© 2025 Sujan Odari · Senior Software Engineer · Kathmandu, Nepal</span>
+  <a href="#home" class="font-mono text-[0.7rem] no-underline transition-colors" style="color:rgba(255,220,180,0.7)" onmouseover="this.style.color='#fff8f0'" onmouseout="this.style.color='rgba(255,220,180,0.7)'">↑ Back to top</a>
 </footer>
 
-<!-- ── SCRIPTS ─────────────────────────────────────────────── -->
 <script>
-  /* ── Custom cursor ─────────────────── */
-  const dot = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    dot.style.left = mx + 'px';
-    dot.style.top  = my + 'px';
-  });
-
-  (function animRing() {
-    rx += (mx - rx) * 0.18;
-    ry += (my - ry) * 0.18;
-    ring.style.left = rx + 'px';
-    ring.style.top  = ry + 'px';
-    requestAnimationFrame(animRing);
-  })();
-
-  document.querySelectorAll('a, button, [data-hover]').forEach(el => {
-    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-  });
-
-  /* ── Scroll reveal ─────────────────── */
-  const revealEls = document.querySelectorAll('.reveal');
+  // Scroll reveal
   const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-  }, { threshold: 0.12 });
-  revealEls.forEach(el => io.observe(el));
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  /* ── Nav scroll ────────────────────── */
+  // Nav scroll
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 60);
-
-    // Active nav
+    if (window.scrollY > 50) {
+      navbar.style.background = 'rgba(250,248,244,0.92)';
+      navbar.style.backdropFilter = 'blur(16px)';
+      navbar.style.boxShadow = '0 1px 0 rgba(26,22,16,0.1)';
+    } else {
+      navbar.style.background = '';
+      navbar.style.backdropFilter = '';
+      navbar.style.boxShadow = '';
+    }
+    // Active link
     let current = '';
-    document.querySelectorAll('section[id]').forEach(sec => {
-      if (window.scrollY >= sec.offsetTop - 200) current = sec.id;
+    document.querySelectorAll('section[id]').forEach(s => {
+      if (window.scrollY >= s.offsetTop - 180) current = s.id;
     });
-    document.querySelectorAll('.nav-links a').forEach(a => {
+    document.querySelectorAll('.nav-underline').forEach(a => {
       a.classList.toggle('active', a.getAttribute('href') === '#' + current);
     });
   });
 
-  /* ── Mobile nav ────────────────────── */
-  const mobileNav = document.getElementById('mobileNav');
-  document.getElementById('hamburger').addEventListener('click', () => mobileNav.classList.add('open'));
-  document.getElementById('mobileClose').addEventListener('click', () => mobileNav.classList.remove('open'));
-  function closeMobileNav() { mobileNav.classList.remove('open'); }
-
-  /* ── Smooth scroll ─────────────────── */
+  // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const t = document.querySelector(a.getAttribute('href'));
@@ -1614,6 +838,5 @@
     });
   });
 </script>
-
 </body>
 </html>
